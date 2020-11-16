@@ -1,4 +1,4 @@
-from dataloaders.datasets import cityscapes, coco, combine_dbs, pascal, sbd
+from dataloaders.datasets import cityscapes, coco, combine_dbs, pascal, sbd,rsc
 from torch.utils.data import DataLoader
 
 def make_data_loader(args, **kwargs):
@@ -35,6 +35,15 @@ def make_data_loader(args, **kwargs):
         train_loader = DataLoader(train_set, batch_size=args.batch_size, shuffle=True, **kwargs)
         val_loader = DataLoader(val_set, batch_size=args.batch_size, shuffle=False, **kwargs)
         test_loader = None
+        return train_loader, val_loader, test_loader, num_class
+
+    elif args.dataset == 'rsc':
+        train_set=rsc.RSCDataset(r"E:\huawei\data\train\images\\",r"E:\huawei\data\train\labels\\")
+        val_set=rsc.RSCDataset(r"E:\huawei\data\val\images\\",r"E:\huawei\data\val\labels\\")
+        num_class=2
+        test_loader = None
+        train_loader = DataLoader(train_set, batch_size=args.batch_size, shuffle=True, **kwargs)
+        val_loader = DataLoader(val_set, batch_size=args.batch_size, shuffle=False, **kwargs)
         return train_loader, val_loader, test_loader, num_class
 
     else:

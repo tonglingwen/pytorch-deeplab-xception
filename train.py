@@ -96,7 +96,9 @@ class Trainer(object):
         tbar = tqdm(self.train_loader)
         num_img_tr = len(self.train_loader)
         for i, sample in enumerate(tbar):
-            image, target = sample['image'], sample['label']
+            #image, target = sample['image'], sample['label']
+            image, target = sample['trace'], sample['label']
+
             if self.args.cuda:
                 image, target = image.cuda(), target.cuda()
             self.scheduler(self.optimizer, i, epoch, self.best_pred)
@@ -182,7 +184,7 @@ def main():
                         help='backbone name (default: resnet)')
     parser.add_argument('--out-stride', type=int, default=16,
                         help='network output stride (default: 8)')
-    parser.add_argument('--dataset', type=str, default='pascal',
+    parser.add_argument('--dataset', type=str, default='rsc',
                         choices=['pascal', 'coco', 'cityscapes'],
                         help='dataset name (default: pascal)')
     parser.add_argument('--use-sbd', action='store_true', default=True,
@@ -267,6 +269,7 @@ def main():
             'coco': 30,
             'cityscapes': 200,
             'pascal': 50,
+            'rsc':50
         }
         args.epochs = epoches[args.dataset.lower()]
 
@@ -281,6 +284,7 @@ def main():
             'coco': 0.1,
             'cityscapes': 0.01,
             'pascal': 0.007,
+            'rsc':0.1
         }
         args.lr = lrs[args.dataset.lower()] / (4 * len(args.gpu_ids)) * args.batch_size
 
