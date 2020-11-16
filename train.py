@@ -249,7 +249,8 @@ def main():
     parser.add_argument('--no-val', action='store_true', default=False,
                         help='skip validation during training')
 
-    args = parser.parse_args()
+    args = parser.parse_known_args()[0]
+    #parser.parse_args()
     args.cuda = not args.no_cuda and torch.cuda.is_available()
     if args.cuda:
         try:
@@ -303,5 +304,5 @@ def main():
 
     trainer.writer.close()
 
-if __name__ == "__main__":
-   main()
+#if __name__ == "__main__":
+#   main()
