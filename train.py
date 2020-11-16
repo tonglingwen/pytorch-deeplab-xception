@@ -137,7 +137,8 @@ class Trainer(object):
         tbar = tqdm(self.val_loader, desc='\r')
         test_loss = 0.0
         for i, sample in enumerate(tbar):
-            image, target = sample['image'], sample['label']
+            image, target = sample['trace'], sample['label']
+            #image, target = sample['image'], sample['label']
             if self.args.cuda:
                 image, target = image.cuda(), target.cuda()
             with torch.no_grad():
@@ -275,7 +276,7 @@ def main():
         args.epochs = epoches[args.dataset.lower()]
 
     if args.batch_size is None:
-        args.batch_size = 4 * len(args.gpu_ids)
+        args.batch_size = 8 * len(args.gpu_ids)
 
     if args.test_batch_size is None:
         args.test_batch_size = args.batch_size
@@ -287,7 +288,7 @@ def main():
             'pascal': 0.007,
             'rsc':0.1
         }
-        args.lr = lrs[args.dataset.lower()] / (4 * len(args.gpu_ids)) * args.batch_size
+        args.lr = lrs[args.dataset.lower()] / (8 * len(args.gpu_ids)) * args.batch_size
 
 
     if args.checkname is None:
