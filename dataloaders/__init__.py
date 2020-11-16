@@ -40,7 +40,7 @@ def make_data_loader(args, **kwargs):
     elif args.dataset == 'rsc':
         train_set=rsc.RSCDataset(r"/home/ma-user/work/RSC/data/train/images/",r"/home/ma-user/work/RSC/data/train/labels/")
         val_set=rsc.RSCDataset(r"/home/ma-user/work/RSC/data/val/images/",r"/home/ma-user/work/RSC/data/val/labels/")
-        
+
         #train_set=rsc.RSCDataset(r"E:\huawei\data\train\images\\",r"E:\huawei\data\train\labels\\")
         #val_set=rsc.RSCDataset(r"E:\huawei\data\val\images\\",r"E:\huawei\data\val\labels\\")
 
