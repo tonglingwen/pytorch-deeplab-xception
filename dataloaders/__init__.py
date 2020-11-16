@@ -38,8 +38,12 @@ def make_data_loader(args, **kwargs):
         return train_loader, val_loader, test_loader, num_class
 
     elif args.dataset == 'rsc':
-        train_set=rsc.RSCDataset(r"E:\huawei\data\train\images\\",r"E:\huawei\data\train\labels\\")
-        val_set=rsc.RSCDataset(r"E:\huawei\data\val\images\\",r"E:\huawei\data\val\labels\\")
+        train_set=rsc.RSCDataset(r"/home/ma-user/work/RSC/data/train/images/",r"/home/ma-user/work/RSC/data/train/labels/")
+        val_set=rsc.RSCDataset(r"/home/ma-user/work/RSC/data/val/images/",r"/home/ma-user/work/RSC/data/val/labels/")
+        
+        #train_set=rsc.RSCDataset(r"E:\huawei\data\train\images\\",r"E:\huawei\data\train\labels\\")
+        #val_set=rsc.RSCDataset(r"E:\huawei\data\val\images\\",r"E:\huawei\data\val\labels\\")
+
         num_class=2
         test_loader = None
         train_loader = DataLoader(train_set, batch_size=args.batch_size, shuffle=True, **kwargs)
