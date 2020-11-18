@@ -36,6 +36,9 @@ class Trainer(object):
                         sync_bn=args.sync_bn,
                         freeze_bn=args.freeze_bn)
 
+        print(self.nclass,args.backbone,args.out_stride,args.sync_bn,args.freeze_bn)
+        #2 resnet 16 False False
+
         train_params = [{'params': model.get_1x_lr_params(), 'lr': args.lr},
                         {'params': model.get_10x_lr_params(), 'lr': args.lr * 10}]
 
@@ -74,7 +77,7 @@ class Trainer(object):
         if args.resume is not None:
             if not os.path.isfile(args.resume):
                 raise RuntimeError("=> no checkpoint found at '{}'" .format(args.resume))
-            checkpoint = torch.load(args.resume)
+            checkpoint = torch.load(args.resume,map_location='cpu')
             args.start_epoch = checkpoint['epoch']
             if args.cuda:
                 self.model.module.load_state_dict(checkpoint['state_dict'])
@@ -237,7 +240,7 @@ def main():
     parser.add_argument('--seed', type=int, default=1, metavar='S',
                         help='random seed (default: 1)')
     # checking point
-    parser.add_argument('--resume', type=str, default=None,
+    parser.add_argument('--resume', type=str, default='model_best.pth',
                         help='put the path to resuming file if needed')
     parser.add_argument('--checkname', type=str, default=None,
                         help='set the checkpoint name')
@@ -271,7 +274,7 @@ def main():
             'coco': 30,
             'cityscapes': 200,
             'pascal': 50,
-            'rsc':50
+            'rsc':100
         }
         args.epochs = epoches[args.dataset.lower()]
 
@@ -286,7 +289,7 @@ def main():
             'coco': 0.1,
             'cityscapes': 0.01,
             'pascal': 0.007,
-            'rsc':0.1
+            'rsc':0.01
         }
         args.lr = lrs[args.dataset.lower()] / (8 * len(args.gpu_ids)) * args.batch_size
 
@@ -305,5 +308,5 @@ def main():
 
     trainer.writer.close()
 
-if __name__ == "__main__":
-   main()
+#if __name__ == "__main__":
+#   main()
