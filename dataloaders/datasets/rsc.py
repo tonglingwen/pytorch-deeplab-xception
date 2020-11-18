@@ -53,8 +53,8 @@ class RSCDataset(Dataset):
         assert img.size == mask.size, \
             f'Image and mask {idx} should be the same size, but are {img.size} and {mask.size}'
 
-        img = self.preprocess(img)
-        mask = np.array(mask)
+        img = self.preprocess(img.resize((1024, 1024)))
+        mask = np.array(mask.resize((1024, 1024)))
         return {
             'trace': img.astype(np.float32),
             'label': mask.astype(np.long)
